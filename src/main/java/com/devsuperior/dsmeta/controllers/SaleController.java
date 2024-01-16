@@ -25,10 +25,11 @@ public class SaleController {
 
 	@GetMapping(value = "/report")
 	public ResponseEntity<Page<ReportDTO>> getReport(@RequestParam(name = "sellerName",defaultValue ="")
-														  String sellerName, Pageable pageable) {
+													 String sellerName, Pageable pageable) {
 		Page<ReportDTO> dto =service.findAll(sellerName,pageable);
 		return ResponseEntity.ok(dto);
 	}
+
 
 	@GetMapping(value = "/summary")
 	public ResponseEntity<?> getSummary() {

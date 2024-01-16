@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
     @Query("SELECT new com.devsuperior.dsmeta.dto.ReportDTO(obj.id, obj.date, obj.amount) " +
-            "FROM Sale obj ")
-    Page<ReportDTO> searchByName(String name, Pageable pageable);
+            "FROM Sale obj " +
+            "WHERE UPPER(obj.seller.name)" +
+            "LIKE UPPER(CONCAT('%',:sellerName,'%')) ")
+    Page<ReportDTO> searchByName(String sellerName, Pageable pageable);
 }

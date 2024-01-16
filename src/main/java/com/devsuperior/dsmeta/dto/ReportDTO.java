@@ -10,10 +10,12 @@ public class ReportDTO {
     private Double amount;
 
 
-    public ReportDTO(Long id, LocalDate date, Double amount ) {
+
+    public ReportDTO(Long id, LocalDate date, Double amount) {
         this.id = id;
         this.date = date;
         this.amount = amount;
+
 
     }
     public ReportDTO(Sale entity) {
