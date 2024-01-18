@@ -27,8 +27,8 @@ public class SaleService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<ReportDTO> findAll(String sellerName, Pageable pageable){
-		Page<ReportDTO> result = repository.searchByName(sellerName, pageable);
+	public Page<ReportDTO> findAll(String minDate, String maxDate, String name, Pageable pageable){
+		Page<ReportDTO> result = repository.searchByName(minDate,maxDate,name, pageable);
 		return result;
 	}
 }

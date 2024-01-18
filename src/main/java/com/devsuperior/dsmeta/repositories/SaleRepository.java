@@ -8,9 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
-    @Query("SELECT new com.devsuperior.dsmeta.dto.ReportDTO(obj.id, obj.date, obj.amount) " +
+    @Query("SELECT new com.devsuperior.dsmeta.dto.ReportDTO(obj.id, obj.date, SUM(obj.amount), obj.seller.name) " +
             "FROM Sale obj " +
-            "WHERE UPPER(obj.seller.name)" +
-            "LIKE UPPER(CONCAT('%',:sellerName,'%')) ")
-    Page<ReportDTO> searchByName(String sellerName, Pageable pageable);
+            "WHERE obj.date BETWEEN :minDate AND :maxDate " +
+            "AND UPPER(obj.seller.name) LIKE UPPER(CONCAT('%',:name,'%')) " +
+            "GROUP BY obj.seller.name ")
+    Page<ReportDTO> searchByName(String minDate, String maxDate, String name, Pageable pageable);
 }
