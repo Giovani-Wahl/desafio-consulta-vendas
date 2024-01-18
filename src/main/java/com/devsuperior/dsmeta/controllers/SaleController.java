@@ -24,7 +24,7 @@ public class SaleController {
 	}
 
 	@GetMapping(value = "/report")
-	public ResponseEntity<Page<ReportDTO>> getReport(String minDate,String maxDate,@RequestParam(name = "name",defaultValue ="")
+	public ResponseEntity<Page<ReportDTO>> getReport(@RequestParam String minDate,@RequestParam String maxDate,@RequestParam(name = "name",defaultValue ="")
 													 String name, Pageable pageable) {
 		Page<ReportDTO> dto =service.findAll(minDate,maxDate,name, pageable);
 		return ResponseEntity.ok(dto);
