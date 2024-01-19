@@ -1,6 +1,8 @@
 package com.devsuperior.dsmeta.services;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
@@ -30,8 +32,20 @@ public class SaleService {
 
 	@Transactional(readOnly = true)
 	public Page<ReportDTO> findAll(String minDate, String maxDate, String name, Pageable pageable){
-		LocalDate parsedMinDate = LocalDate.parse(minDate, DateTimeFormatter.ISO_LOCAL_DATE);
-		LocalDate parsedMaxDate = LocalDate.parse(maxDate, DateTimeFormatter.ISO_LOCAL_DATE);
+		LocalDate parsedMinDate;
+		LocalDate parsedMaxDate;
+		if (minDate.isEmpty()){
+			parsedMinDate = LocalDate.now().minusYears(1L);
+		}else {
+			parsedMinDate = LocalDate.parse(minDate, DateTimeFormatter.ISO_LOCAL_DATE);
+		}
+
+		if (maxDate.isEmpty()){
+			parsedMaxDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+		}else {
+			parsedMaxDate = LocalDate.parse(maxDate, DateTimeFormatter.ISO_LOCAL_DATE);
+		}
+
 		Page<ReportDTO> result = repository.searchByName(parsedMinDate,parsedMaxDate,name, pageable);
 		return result;
 	}
