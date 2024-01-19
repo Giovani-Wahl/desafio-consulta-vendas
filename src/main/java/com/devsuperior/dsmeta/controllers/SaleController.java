@@ -4,6 +4,8 @@ import com.devsuperior.dsmeta.dto.ReportDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,10 @@ public class SaleController {
 	}
 
 	@GetMapping(value = "/report")
-	public ResponseEntity<Page<ReportDTO>> getReport(@RequestParam String minDate,@RequestParam String maxDate,@RequestParam(name = "name",defaultValue ="")
-													 String name, Pageable pageable) {
+	public ResponseEntity<Page<ReportDTO>> getReport(
+			@RequestParam String minDate,@RequestParam String maxDate,
+			@RequestParam(name = "name",defaultValue ="") String name,
+			@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
 		Page<ReportDTO> dto =service.findAll(minDate,maxDate,name, pageable);
 		return ResponseEntity.ok(dto);
 	}

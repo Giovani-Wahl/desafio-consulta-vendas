@@ -8,23 +8,23 @@ public class ReportDTO {
     private Long id;
     private LocalDate date;
     private Double amount;
-    private String name;
+    private String sellerName;
 
 
 
 
-    public ReportDTO(Long id, LocalDate date, Double amount, String name) {
+    public ReportDTO(Long id, LocalDate date, Double amount, String sellerName) {
         this.id = id;
         this.date = date;
         this.amount = amount;
-        this.name = name;
+        this.sellerName = sellerName;
 
     }
     public ReportDTO(Sale entity) {
         id = entity.getId();
         date = entity.getDate();
         amount = entity.getAmount();
-        name = entity.getSeller().getName();
+        sellerName = entity.getSeller().getName();
 
     }
 
@@ -40,7 +40,7 @@ public class ReportDTO {
         return amount;
     }
 
-    public String getName() {
-        return name;
+    public String getSellerName() {
+        return sellerName;
     }
 }

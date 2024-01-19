@@ -3,6 +3,7 @@ package com.devsuperior.dsmeta.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_sales")
@@ -69,5 +70,20 @@ public class Sale {
 
 	public void setSeller(Seller seller) {
 		this.seller = seller;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Sale sale = (Sale) o;
+
+        return Objects.equals(id, sale.id);
+    }
+
+	@Override
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
 	}
 }
