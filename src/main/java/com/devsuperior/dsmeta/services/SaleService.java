@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import com.devsuperior.dsmeta.dto.ReportDTO;
+import com.devsuperior.dsmeta.dto.SummaryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class SaleService {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<ReportDTO> findAll(String minDate, String maxDate, String name, Pageable pageable){
+	public Page<ReportDTO> getReport(String minDate, String maxDate, String name, Pageable pageable){
 		LocalDate parsedMinDate;
 		LocalDate parsedMaxDate;
 		if (minDate.isEmpty()){
@@ -47,6 +48,25 @@ public class SaleService {
 		}
 
 		Page<ReportDTO> result = repository.searchByName(parsedMinDate,parsedMaxDate,name, pageable);
+		return result;
+	}
+
+	@Transactional(readOnly = true)
+	public Page<SummaryDTO> getSummary(String minDate, String maxDate, Pageable pageable){
+		LocalDate parsedMinDate;
+		LocalDate parsedMaxDate;
+		if (minDate.isEmpty()){
+			parsedMinDate = LocalDate.now().minusYears(1L);
+		}else {
+			parsedMinDate = LocalDate.parse(minDate, DateTimeFormatter.ISO_LOCAL_DATE);
+		}
+
+		if (maxDate.isEmpty()){
+			parsedMaxDate = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+		}else {
+			parsedMaxDate = LocalDate.parse(maxDate, DateTimeFormatter.ISO_LOCAL_DATE);
+		}
+		Page<SummaryDTO> result = repository.searchSummary(parsedMinDate,parsedMaxDate, pageable);
 		return result;
 	}
 }
